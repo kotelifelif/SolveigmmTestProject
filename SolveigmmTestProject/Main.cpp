@@ -17,53 +17,32 @@ int main(int argc, char* argv[])
 
 	std::string input_file_name("Empty");
 	std::string output_file_name("Empty");
+	
 	int brightness = 0;
 	
 	for (int i = 1; i < argc; i += 2) {
-		if (argv[i] == "-input") {
+		if (strcmp(argv[i], "-input") == 0) {
 			input_file_name = argv[i + 1];
 		}
-		else if (argv[i] == "-brightness") {
+		else if (strcmp(argv[i], "-brightness") == 0) {
 			brightness = std::stoi(argv[i + 1]);
 		}
-		else if (argv[i] == "-brightness") {
+		else if (strcmp(argv[i], "-output") == 0) {
 			output_file_name = argv[i + 1];
 		}
 	}
 	
 	int input_value = 0;
 	BMPFormat file_information;
-	while (true)
-	{
-		std::cout << "1. Choose input file name" << std::endl << input_file_name << std::endl;
-		std::cout << "2. Choose output file name" << std::endl << output_file_name << std::endl;
-		std::cout << "3. Set the brightness value" << std::endl << brightness << std::endl;
-		std::cout << "4. Save changes" << std::endl;
-		std::cout << "5. Exit" << std::endl;
-		std::cout << "Your input ";
-		std::cin >> input_value;
-		switch (input_value) {
-		case 1:
-			input_file_name = GetFileName();
-			file_information = ReadFromFile(input_file_name);
-			break;
-		case 2:
-			output_file_name = GetFileName();
-			break;
-		case 3:
-			std::cout << "Your input of brightness value ";
-			std::cin >> brightness;
-			if (brightness < 0) brightness = 0;
-			else if (brightness > 255) brightness = 255;
-			ApplyBrightness(file_information, brightness);
-			break;
-		case 4:
-			WriteToFile(output_file_name, file_information);
-			break;
-		case 5:
-			return 0;
-		}
-		system("cls");
-	}
+	
+	file_information = ReadFromFile(input_file_name);
+
+	if (brightness < 0) brightness = 0;
+	else if (brightness > 255) brightness = 255;
+	
+	ApplyBrightness(file_information, brightness);
+	
+	WriteToFile(output_file_name, file_information);
+	
 	return 0;
 }
