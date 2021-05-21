@@ -7,11 +7,30 @@
 #include "file_operations.h"
 
 // https://google.github.io/styleguide/cppguide.html
-int main()
+int main(int argc, char* argv[])
 {
+
+	if (argc == 1) {
+		std::cout << "There are no arguments" << std::endl;
+		return 0;
+	}
+
 	std::string input_file_name("Empty");
 	std::string output_file_name("Empty");
 	int brightness = 0;
+	
+	for (int i = 1; i < argc; i += 2) {
+		if (argv[i] == "-input") {
+			input_file_name = argv[i + 1];
+		}
+		else if (argv[i] == "-brightness") {
+			brightness = std::stoi(argv[i + 1]);
+		}
+		else if (argv[i] == "-brightness") {
+			output_file_name = argv[i + 1];
+		}
+	}
+	
 	int input_value = 0;
 	BMPFormat file_information;
 	while (true)
