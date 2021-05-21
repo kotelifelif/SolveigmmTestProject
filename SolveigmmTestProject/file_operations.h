@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <atlstr.h>
 
 #include <string>
 #include <fstream>
@@ -74,16 +75,16 @@ BMPFormat ReadFromFile(const std::string& file_name) {
 
 	unsigned int bufer;
 
-	for (unsigned int i = 0; i < file_information.info.bV5Height; i++) {
+	for (int i = 0; i < file_information.info.bV5Height; i++) {
 		file_information.rgbInfo.push_back(std::vector<RGBFormat>());
-		for (unsigned int j = 0; j < file_information.info.bV5Width; ++j) {
+		for (int j = 0; j < file_information.info.bV5Width; ++j) {
 			file_information.rgbInfo[i].push_back(RGBFormat());
 		}
 	}
 
 	unsigned char* byte;
-	for (unsigned int i = 0; i < file_information.info.bV5Height; i++) {
-		for (unsigned int j = 0; j < file_information.info.bV5Width; j++) {
+	for (int i = 0; i < file_information.info.bV5Height; i++) {
+		for (int j = 0; j < file_information.info.bV5Width; j++) {
 			input_file_stream.read(reinterpret_cast<char*>(&bufer), file_information.info.bV5BitCount / 8);
 
 			byte = (unsigned char*)&bufer;
@@ -137,8 +138,8 @@ void WriteToFile(const std::string& file_name, BMPFormat& file_information) {
 	output_file_stream.write(reinterpret_cast<char*>(&file_information.info.bV5ProfileSize), sizeof(file_information.info.bV5ProfileSize));
 	output_file_stream.write(reinterpret_cast<char*>(&file_information.info.bV5Reserved), sizeof(file_information.info.bV5Reserved));
 
-	for (unsigned int i = 0; i < file_information.info.bV5Height; i++) {
-		for (unsigned int j = 0; j < file_information.info.bV5Width; j++) {
+	for (int i = 0; i < file_information.info.bV5Height; i++) {
+		for (int j = 0; j < file_information.info.bV5Width; j++) {
 			output_file_stream.write(reinterpret_cast<char*>(&file_information.rgbInfo[i][j].rgbRed), sizeof(BYTE));
 			output_file_stream.write(reinterpret_cast<char*>(&file_information.rgbInfo[i][j].rgbGreen), sizeof(BYTE));
 			output_file_stream.write(reinterpret_cast<char*>(&file_information.rgbInfo[i][j].rgbBlue), sizeof(BYTE));

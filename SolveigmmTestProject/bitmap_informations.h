@@ -10,8 +10,8 @@ struct RGBFormat {
 };
 
 struct BMPFormat {
-	BITMAPFILEHEADER bitmap;
-	BITMAPV5HEADER info;
+	BITMAPFILEHEADER bitmap{};
+	BITMAPV5HEADER info{};
 	std::vector<std::vector<RGBFormat>> rgbInfo;
 };
 
@@ -24,8 +24,8 @@ int ChangeChannel(int value, int brightness) {
 }
 
 void ApplyBrightness(BMPFormat& file_information, const int brightness) {
-	for (unsigned int i = 0; i < file_information.info.bV5Height; i++) {
-		for (unsigned int j = 0; j < file_information.info.bV5Width; j++) {
+	for (int i = 0; i < file_information.info.bV5Height; i++) {
+		for (int j = 0; j < file_information.info.bV5Width; j++) {
 			file_information.rgbInfo[i][j].rgbRed = ChangeChannel(file_information.rgbInfo[i][j].rgbRed, brightness);
 			file_information.rgbInfo[i][j].rgbGreen = ChangeChannel(file_information.rgbInfo[i][j].rgbGreen, brightness);
 			file_information.rgbInfo[i][j].rgbBlue = ChangeChannel(file_information.rgbInfo[i][j].rgbBlue, brightness);
